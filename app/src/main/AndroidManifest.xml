@@ -11,6 +11,7 @@
         android:theme="@style/Theme.NameQuiz">
         <activity
             android:name=".DatabaseActivity"
+            android:label="Database"
             android:exported="false" />
         <activity
             android:name=".MainActivity"
