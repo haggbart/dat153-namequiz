@@ -2,29 +2,21 @@ package com.haggbart.dat153.namequiz;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.Person;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ListAdapter;
-import android.widget.ListView;
 import android.widget.Toast;
 
-import com.haggbart.dat153.namequiz.database.Database;
-import com.haggbart.dat153.namequiz.person.PersonAdapter;
+import com.haggbart.dat153.namequiz.database.People;
 import com.haggbart.dat153.namequiz.person.PersonEntry;
-
-import java.util.List;
 
 public class AddEntryActivity extends AppCompatActivity implements View.OnClickListener {
 
     private static final String TAG = "AddEntryActivity";
 
-    private static final Database database = Database.getInstance();
+    private static final People database = People.getInstance();
 
     private EditText forename;
     private EditText surname;
@@ -46,15 +38,14 @@ public class AddEntryActivity extends AppCompatActivity implements View.OnClickL
         Log.d(TAG, "onClick: button clicked: " + view.getResources().getResourceEntryName(view.getId()));
         if (view.getId() != R.id.btnAddEntry) return;
 
-        Log.d(TAG, "onClick: passed check");
-        var person = new PersonEntry(forename.getText().toString(), surname.getText().toString());
-        person = database.addPerson(person);
+        PersonEntry person = new PersonEntry(forename.getText().toString(), surname.getText().toString());
 
-        if (person == null) {
+        if (!database.add(person)) {
             Toast.makeText(this, "Please input all the required fields", Toast.LENGTH_SHORT).show();
             return;
         }
 
+        database.isDirty = true;
         Toast.makeText(this, String.format("%s %s added to the database", person.getForename(), person.getSurname()), Toast.LENGTH_SHORT).show();
     }
 }

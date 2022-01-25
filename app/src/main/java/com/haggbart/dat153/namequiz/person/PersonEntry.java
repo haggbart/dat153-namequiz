@@ -1,23 +1,14 @@
 package com.haggbart.dat153.namequiz.person;
 
 
-import androidx.annotation.NonNull;
-
 import java.util.Objects;
 
 public class PersonEntry {
 
-    private Long id;
     private String forename;
     private String surname;
 
     public PersonEntry(String forename, String surname) {
-        this.forename = forename;
-        this.surname = surname;
-    }
-
-    public PersonEntry(Long id, String forename, String surname) {
-        this.id = id;
         this.forename = forename;
         this.surname = surname;
     }
@@ -38,34 +29,16 @@ public class PersonEntry {
         this.surname = surname;
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        PersonEntry personEntry = (PersonEntry) o;
-        return Objects.equals(id, personEntry.id);
+        PersonEntry that = (PersonEntry) o;
+        return forename.equals(that.forename) && surname.equals(that.surname);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id);
-    }
-
-    @NonNull
-    @Override
-    public String toString() {
-        return "Person{" +
-                "id=" + id +
-                ", forename='" + forename + '\'' +
-                ", surname='" + surname + '\'' +
-                '}';
+        return Objects.hash(forename, surname);
     }
 }
