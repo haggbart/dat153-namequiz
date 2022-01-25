@@ -1,17 +1,23 @@
-package com.haggbart.dat153.namequiz.model;
+package com.haggbart.dat153.namequiz.person;
 
 
 import androidx.annotation.NonNull;
 
-public class HvlPerson {
+import java.util.Objects;
 
-    private static long idCounter;
+public class PersonEntry {
 
     private Long id;
     private String forename;
     private String surname;
 
-    public HvlPerson(String forename, String surname) {
+    public PersonEntry(String forename, String surname) {
+        this.forename = forename;
+        this.surname = surname;
+    }
+
+    public PersonEntry(Long id, String forename, String surname) {
+        this.id = id;
         this.forename = forename;
         this.surname = surname;
     }
@@ -38,6 +44,19 @@ public class HvlPerson {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        PersonEntry personEntry = (PersonEntry) o;
+        return Objects.equals(id, personEntry.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 
     @NonNull

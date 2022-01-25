@@ -10,9 +10,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.NameQuiz">
         <activity
+            android:name=".AddEntryActivity"
+            android:exported="false"
+            android:label="Add entry"/>
+        <activity
             android:name=".DatabaseActivity"
-            android:label="Database"
-            android:exported="false" />
+            android:exported="false"
+            android:label="Database" />
         <activity
             android:name=".MainActivity"
             android:exported="true">

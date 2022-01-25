@@ -4,12 +4,14 @@ package com.haggbart.dat153.namequiz.database;
 import android.util.Log;
 
 import com.github.javafaker.Faker;
-import com.haggbart.dat153.namequiz.model.HvlPerson;
+import com.haggbart.dat153.namequiz.person.PersonEntry;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 public class Database {
 
@@ -20,14 +22,13 @@ public class Database {
     private static long idCounter;
 
     private final Faker faker = new Faker(new Locale("nb-NO"));
-    private final HashMap<Long, HvlPerson> people = new HashMap<>();
+    private final Map<Long, PersonEntry> people = new HashMap<>();
 
     private Database() {
-        for (int i = 0; i < 40; i++) {
-            addPerson(new HvlPerson(faker.name().firstName(), faker.name().lastName()));
+        for (int i = 0; i < 4; i++) {
+            addPerson(new PersonEntry(faker.name().firstName(), faker.name().lastName()));
         }
-
-        Log.d(TAG, "Database: data" + people.values());
+        Log.d(TAG, "Database: data" + people);
     }
 
     public static Database getInstance() {
@@ -39,14 +40,15 @@ public class Database {
         return instance;
     }
 
-    public synchronized HvlPerson addPerson(HvlPerson person) {
-        person.setId(++idCounter);
-        people.put(person.getId(), person);
-        Log.d(TAG, "addPerson: added " + person);
-        return person;
+    public synchronized PersonEntry addPerson(PersonEntry person) {
+        if (person.getForename().isEmpty() || person.getSurname().isEmpty() ) return null;
+        PersonEntry newPerson = new PersonEntry(++idCounter, person.getForename(), person.getSurname());
+        people.put(newPerson.getId(), newPerson);
+        Log.d(TAG, "addPerson: added " + newPerson);
+        return newPerson;
     }
 
-    public Collection<HvlPerson> getPeople() {
-        return people.values();
+    public List<PersonEntry> getPeople() {
+        return new ArrayList<>(people.values());
     }
 }
