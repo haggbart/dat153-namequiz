@@ -1,11 +1,14 @@
 package com.haggbart.dat153.namequiz;
 
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import com.haggbart.dat153.namequiz.database.People;
 import com.haggbart.dat153.namequiz.person.PersonEntry;
@@ -25,16 +28,22 @@ public class QuizActivity extends AppCompatActivity implements View.OnClickListe
 
     private final int ANSWERS_TOTAL = 3;
 
-    private ImageView ivImage;
-    private Button btnAnswer0;
-    private Button btnAnswer1;
-    private Button btnAnswer2;
-
-    private PersonEntry currentPerson;
     private int nextCount;
-
     private List<PersonEntry> shuffledPeople;
     private List<String> options;
+    private PersonEntry currentPerson;
+    private int correctAnswer;
+
+
+    // Views
+    private ImageView ivImage;
+    private final Button[] btnAnswers = new Button[ANSWERS_TOTAL];
+    private TextView tvStatsPercent;
+    private TextView tvStats;
+
+    // Stats
+    private int points;
+    private int attempts;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,18 +51,19 @@ public class QuizActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_quiz);
 
         ivImage = findViewById(R.id.ivImage);
-        btnAnswer0 = findViewById(R.id.btnAnswer0);
-        btnAnswer1 = findViewById(R.id.btnAnswer1);
-        btnAnswer2 = findViewById(R.id.btnAnswer2);
-
+        btnAnswers[0] = findViewById(R.id.btnAnswer0);
+        btnAnswers[1] = findViewById(R.id.btnAnswer1);
+        btnAnswers[2] = findViewById(R.id.btnAnswer2);
+        tvStats = findViewById(R.id.tvStats);
+        tvStatsPercent = findViewById(R.id.tvStatsPercent);
 
 
         shuffledPeople = new ArrayList<>(database.getPeople());
         Collections.shuffle(shuffledPeople);
 
-        btnAnswer0.setOnClickListener(this);
-        btnAnswer1.setOnClickListener(this);
-        btnAnswer2.setOnClickListener(this);
+        for (var btn : btnAnswers) {
+            btn.setOnClickListener(this);
+        }
 
         nextPerson();
     }
@@ -65,7 +75,7 @@ public class QuizActivity extends AppCompatActivity implements View.OnClickListe
             nextCount = 0;
         }
 
-        int correctAnswer = random.nextInt(ANSWERS_TOTAL);
+        correctAnswer = random.nextInt(ANSWERS_TOTAL);
 
         options = new ArrayList<>(ANSWERS_TOTAL);
         for (int i = 0; i < ANSWERS_TOTAL; i++) {
@@ -73,9 +83,10 @@ public class QuizActivity extends AppCompatActivity implements View.OnClickListe
         }
 
         ivImage.setImageURI(currentPerson.getImageUri());
-        btnAnswer0.setText(options.get(0));
-        btnAnswer1.setText(options.get(1));
-        btnAnswer2.setText(options.get(2));
+
+        for (int i = 0; i < ANSWERS_TOTAL; i++) {
+            btnAnswers[i].setText(options.get(i));
+        }
     }
 
     private String randomName() {
@@ -88,6 +99,27 @@ public class QuizActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View view) {
-        nextPerson();
+        if (btnAnswers[correctAnswer].equals(view)) {
+            points++;
+        }
+        attempts++;
+        
+        tvStats.setText(points + "/" + attempts);
+        tvStatsPercent.setText(String.format("%.0f%%", (points / (float)attempts * 100)));
+
+        ((Button) view).setBackgroundColor(ContextCompat.getColor(this, R.color.red));
+        btnAnswers[correctAnswer].setBackgroundColor(ContextCompat.getColor(this, R.color.green));
+        new CountDownTimer(1000, 1000) {
+
+
+            public void onTick(long millisUntilFinished) { }
+
+            public void onFinish() {
+                for (var btn : btnAnswers) {
+                    btn.setBackgroundColor(ContextCompat.getColor(view.getContext(), R.color.design_default_color_primary));
+                }
+                nextPerson();
+            }
+        }.start();
     }
 }
