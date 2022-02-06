@@ -46,6 +46,10 @@ public class PersonEntry {
         this.imageUri = imageUri;
     }
 
+    public String getFullName() {
+        return forename + " " + surname;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
