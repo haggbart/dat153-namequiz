@@ -104,7 +104,7 @@ public class QuizActivity extends AppCompatActivity implements View.OnClickListe
         }
         attempts++;
         
-        tvStats.setText(points + "/" + attempts);
+        tvStats.setText("Score: " + points + "/" + attempts);
         tvStatsPercent.setText(String.format("%.0f%%", (points / (float)attempts * 100)));
 
         ((Button) view).setBackgroundColor(ContextCompat.getColor(this, R.color.red));

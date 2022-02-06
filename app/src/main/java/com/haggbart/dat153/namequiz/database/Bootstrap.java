@@ -32,7 +32,8 @@ public class Bootstrap {
                 new PersonEntry("Harald", "Solheim", getUri(R.drawable.harald_solheim)),
                 new PersonEntry("Bjarte", "Kileng", getUri(R.drawable.bjarte_kileng)),
                 new PersonEntry("Roger", "Karlsen", getUri(R.drawable.roger_karlsen)),
-                new PersonEntry("Volker", "Stolz", getUri(R.drawable.volker_stolz))
+                new PersonEntry("Volker", "Stolz", getUri(R.drawable.volker_stolz)),
+                new PersonEntry("Mads Henrik", "Sørbø", getUri(R.drawable.mads_henrik))
         );
 
 //        for (int i = 0; i < 100_000; i++) {
