@@ -6,37 +6,32 @@
     android:layout_height="match_parent"
     tools:context=".AddEntryActivity">
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/glHorizontal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.5" />
-
     <EditText
         android:id="@+id/etForename"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
         android:ems="10"
         android:hint="First Name"
         android:inputType="textPersonName"
         android:minHeight="48dp"
-        app:layout_constraintBottom_toTopOf="@+id/etSurname"
-        app:layout_constraintStart_toStartOf="@+id/etSurname" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnChoose" />
 
     <EditText
         android:id="@+id/etSurname"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
         android:ems="10"
         android:hint="Last Name"
         android:inputType="textPersonName"
         android:minHeight="48dp"
-        app:layout_constraintBottom_toTopOf="@+id/glHorizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etForename" />
 
     <Button
         android:id="@+id/btnAddEntry"
@@ -45,7 +40,33 @@
         android:layout_marginTop="8dp"
         android:text="Add new entry"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/glHorizontal" />
+        app:layout_constraintTop_toBottomOf="@+id/etSurname" />
+
+    <ImageView
+        android:id="@+id/ivImage"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="16dp"
+        android:scaleType="centerCrop"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_launcher_background" />
+
+    <Button
+        android:id="@+id/btnChoose"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Choose"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ivImage" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

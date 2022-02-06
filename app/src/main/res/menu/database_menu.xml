@@ -4,5 +4,7 @@
 
     <item
         android:id="@+id/mnuAddEntry"
-        android:title="Add entry" />
+        android:icon="@drawable/add_person"
+        android:title="Add entry"
+        app:showAsAction="ifRoom" />
 </menu>

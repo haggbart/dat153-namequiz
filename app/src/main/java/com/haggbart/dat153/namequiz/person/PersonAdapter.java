@@ -1,10 +1,14 @@
 package com.haggbart.dat153.namequiz.person;
 
+import static com.haggbart.dat153.namequiz.helper.ImageHelper.getUri;
+
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -15,6 +19,8 @@ import com.haggbart.dat153.namequiz.R;
 import java.util.List;
 
 public class PersonAdapter<T extends PersonEntry> extends ArrayAdapter<T> {
+
+    private static final String TAG = "PersonAdapter";
 
     private final int layoutResource;
     private final LayoutInflater layoutInflater;
@@ -47,18 +53,19 @@ public class PersonAdapter<T extends PersonEntry> extends ArrayAdapter<T> {
         }
 
         T person = people.get(position);
-        viewHolder.tvForename.setText(person.getForename());
-        viewHolder.tvSurname.setText(person.getSurname());
+        viewHolder.tvForename.setText(String.format("%s %s", person.getForename(), person.getSurname()));
+        Log.d(TAG, "getView: imageUri: " + person.getImageUri());
+        viewHolder.ivImage.setImageURI(person.getImageUri() == null ? getUri(R.drawable.placeholder) : person.getImageUri());
         return convertView;
     }
 
     private static class ViewHolder {
+        final ImageView ivImage;
         final TextView tvForename;
-        final TextView tvSurname;
 
         ViewHolder(View view) {
-            this.tvForename = view.findViewById(R.id.tvForename);
-            this.tvSurname = view.findViewById(R.id.tvSurname);
+            this.ivImage = view.findViewById(R.id.ivImage);
+            this.tvForename = view.findViewById(R.id.tvFullName);
         }
     }
 }

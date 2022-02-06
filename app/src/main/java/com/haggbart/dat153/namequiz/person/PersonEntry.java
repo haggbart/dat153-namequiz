@@ -1,16 +1,25 @@
 package com.haggbart.dat153.namequiz.person;
 
 
+import android.net.Uri;
+
 import java.util.Objects;
 
 public class PersonEntry {
 
     private String forename;
     private String surname;
+    private Uri imageUri;
 
     public PersonEntry(String forename, String surname) {
         this.forename = forename;
         this.surname = surname;
+    }
+
+    public PersonEntry(String forename, String surname, Uri imageUri) {
+        this.forename = forename;
+        this.surname = surname;
+        this.imageUri = imageUri;
     }
 
     public String getForename() {
@@ -27,6 +36,14 @@ public class PersonEntry {
 
     public void setSurname(String surname) {
         this.surname = surname;
+    }
+
+    public Uri getImageUri() {
+        return imageUri;
+    }
+
+    public void setImageUri(Uri imageUri) {
+        this.imageUri = imageUri;
     }
 
     @Override

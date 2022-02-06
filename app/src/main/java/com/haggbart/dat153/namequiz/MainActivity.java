@@ -1,12 +1,14 @@
 package com.haggbart.dat153.namequiz;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.haggbart.dat153.namequiz.database.Bootstrap;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -14,6 +16,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        new Bootstrap().initialize();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 

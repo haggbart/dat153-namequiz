@@ -1,14 +1,11 @@
 package com.haggbart.dat153.namequiz.database;
 
 
-import android.util.Log;
-
-import com.github.javafaker.Faker;
 import com.haggbart.dat153.namequiz.person.PersonEntry;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
-import java.util.Locale;
 
 public class People {
 
@@ -16,15 +13,7 @@ public class People {
 
     private static People instance = null;
 
-    private final Faker faker = new Faker(new Locale("nb-NO"));
     private final List<PersonEntry> people = new ArrayList<>();
-
-    private People() {
-        for (int i = 0; i < 4; i++) {
-            people.add(new PersonEntry(faker.name().firstName(), faker.name().lastName()));
-        }
-        Log.d(TAG, "Database: data: " + people);
-    }
 
     public static People getInstance() {
         if (instance == null) {
@@ -42,6 +31,10 @@ public class People {
     public boolean add(PersonEntry person) {
         if (person.getForename().isEmpty() || person.getSurname().isEmpty()) return false;
         return people.add(person);
+    }
+
+    public void add(PersonEntry... people) {
+        Arrays.stream(people).forEach(this::add);
     }
 
     public PersonEntry remove(int position) {
