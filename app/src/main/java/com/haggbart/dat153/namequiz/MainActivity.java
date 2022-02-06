@@ -33,6 +33,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Log.d(TAG, "onClick: Button clicked: " + view.getResources().getResourceEntryName(view.getId()));
         Intent intent = new Intent(this, DatabaseActivity.class);
 
+        int id = view.getId();
+        if (id == R.id.btnQuiz) {
+            intent = new Intent(this, QuizActivity.class);
+        } else if (id == R.id.btnDatabase) {
+            intent = new Intent(this, DatabaseActivity.class);
+        }
         startActivity(intent);
     }
 }
