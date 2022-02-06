@@ -24,9 +24,7 @@ public class PersonTouchHelper extends ItemTouchHelper.Callback {
     @Override
     public int getMovementFlags(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder) {
         Log.d(TAG, "getMovementFlags: called");
-        final int dragFlags = ItemTouchHelper.UP | ItemTouchHelper.DOWN;
-        final int swipeFlags = ItemTouchHelper.START | ItemTouchHelper.END;
-        return makeMovementFlags(dragFlags, swipeFlags);
+        return makeMovementFlags(0, ItemTouchHelper.START | ItemTouchHelper.END);
     }
 
     @Override
