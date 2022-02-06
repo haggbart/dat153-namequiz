@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -65,6 +66,7 @@ public class DatabaseActivity extends AppCompatActivity {
         } else if (id == R.id.mnuSortEntries) {
             database.getPeople().sort(Comparator.comparing(p -> p.getFullName().toLowerCase(Locale.ROOT)));
             personAdapter.notifyDataSetChanged();
+            Toast.makeText(this, "Entries sorted", Toast.LENGTH_SHORT).show();
         }
         return super.onOptionsItemSelected(item);
     }

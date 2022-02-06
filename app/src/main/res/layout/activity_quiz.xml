@@ -18,7 +18,8 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/placeholder" />
+        app:srcCompat="@drawable/placeholder"
+        android:contentDescription="@string/image_of_person" />
 
     <Button
         android:id="@+id/btnAnswer0"
@@ -27,11 +28,11 @@
         android:layout_marginStart="32dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="32dp"
-        android:text="Answer0"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ivImage" />
+        app:layout_constraintTop_toBottomOf="@+id/ivImage"
+        tools:text="Answer0" />
 
     <Button
         android:id="@+id/btnAnswer1"
@@ -40,11 +41,11 @@
         android:layout_marginStart="32dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="32dp"
-        android:text="Answer1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnAnswer0" />
+        app:layout_constraintTop_toBottomOf="@+id/btnAnswer0"
+        tools:text="Answer1" />
 
     <Button
         android:id="@+id/btnAnswer2"
@@ -53,11 +54,11 @@
         android:layout_marginStart="32dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="32dp"
-        android:text="Answer2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnAnswer1" />
+        app:layout_constraintTop_toBottomOf="@+id/btnAnswer1"
+        tools:text="Answer2" />
 
     <TextView
         android:id="@+id/tvStats"
