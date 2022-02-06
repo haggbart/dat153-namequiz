@@ -35,7 +35,7 @@ public class Bootstrap {
                 new PersonEntry("Volker", "Stolz", getUri(R.drawable.volker_stolz))
         );
 
-//        for (int i = 0; i < 1000000; i++) {
+//        for (int i = 0; i < 100_000; i++) {
 //            database.add(new PersonEntry(faker.name().firstName(), faker.name().lastName()));
 //        }
         Log.d(TAG, "Bootstrap initialized");

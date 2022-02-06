@@ -2,69 +2,59 @@ package com.haggbart.dat153.namequiz.person;
 
 import static com.haggbart.dat153.namequiz.helper.ImageHelper.getUri;
 
-import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.haggbart.dat153.namequiz.R;
+import com.haggbart.dat153.namequiz.database.People;
 
-import java.util.List;
-
-public class PersonAdapter<T extends PersonEntry> extends ArrayAdapter<T> {
+public class PersonAdapter extends RecyclerView.Adapter<PersonAdapter.ViewHolder> implements PersonTouchHelperAdapter {
 
     private static final String TAG = "PersonAdapter";
 
-    private final int layoutResource;
-    private final LayoutInflater layoutInflater;
-    private final List<T> people;
+    private final People database = People.getInstance();
 
-    public PersonAdapter(@NonNull Context context, int resource, List<T> people) {
-        super(context, resource);
-        this.layoutResource = resource;
-        this.layoutInflater = LayoutInflater.from(context);
-        this.people = people;
-    }
-
-    @Override
-    public int getCount() {
-        return people.size();
-    }
-
-
-    // View Holder pattern (using recycled view passed into this method as the second parameter) for smoother scrolling
     @NonNull
     @Override
-    public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-        ViewHolder viewHolder;
-        if (convertView == null) {
-            Log.d(TAG, "getView: creating new view");
-            convertView = layoutInflater.inflate(layoutResource, parent, false);
-            viewHolder = new ViewHolder(convertView);
-            convertView.setTag(viewHolder);
-        } else {
-            Log.d(TAG, "getView: reusing view");
-            viewHolder = (ViewHolder) convertView.getTag();
-        }
-
-        T person = people.get(position);
-        viewHolder.tvForename.setText(String.format("%s %s", person.getForename(), person.getSurname()));
-        viewHolder.ivImage.setImageURI(person.getImageUri() == null ? getUri(R.drawable.placeholder) : person.getImageUri());
-        return convertView;
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_record, parent, false);
+        return new ViewHolder(itemView);
     }
 
-    private static class ViewHolder {
+    @Override
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        PersonEntry person = database.get(position);
+        holder.tvForename.setText(String.format("%s %s", person.getForename(), person.getSurname()));
+        holder.ivImage.setImageURI(person.getImageUri() == null ? getUri(R.drawable.placeholder) : person.getImageUri());
+    }
+
+    @Override
+    public int getItemCount() {
+        return database.getPeople().size();
+    }
+
+    @Override
+    public void onItemDismiss(View view, int position) {
+        Log.d(TAG, "onItemDismiss: position: " + position);
+        PersonEntry person = database.remove(position);
+        notifyItemRemoved(position);
+        Toast.makeText(view.getContext(), String.format("Removed %s %s", person.getForename(), person.getSurname()), Toast.LENGTH_SHORT).show();
+    }
+
+    protected static class ViewHolder extends RecyclerView.ViewHolder {
         final ImageView ivImage;
         final TextView tvForename;
 
-        ViewHolder(View view) {
+        ViewHolder(final View view) {
+            super(view);
             this.ivImage = view.findViewById(R.id.ivImage);
             this.tvForename = view.findViewById(R.id.tvFullName);
         }

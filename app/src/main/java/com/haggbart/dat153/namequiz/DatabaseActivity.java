@@ -1,39 +1,48 @@
 package com.haggbart.dat153.namequiz;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ListView;
-import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.ItemTouchHelper;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.haggbart.dat153.namequiz.database.People;
 import com.haggbart.dat153.namequiz.person.PersonAdapter;
-import com.haggbart.dat153.namequiz.person.PersonEntry;
+import com.haggbart.dat153.namequiz.person.PersonTouchHelper;
 
-public class DatabaseActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
+public class DatabaseActivity extends AppCompatActivity {
 
     private static final String TAG = "DatabaseActivity";
 
     private final People database = People.getInstance();
 
-    private PersonAdapter<PersonEntry> personAdapter;
+    private PersonAdapter personAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_database);
 
-        ListView listPeople = findViewById(R.id.listPeople);
-        personAdapter = new PersonAdapter<>(DatabaseActivity.this, R.layout.list_record, database.getPeople());
+        RecyclerView listPeople = findViewById(R.id.listPeople);
+
+
+        personAdapter = new PersonAdapter();
+
+        listPeople.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+        listPeople.setItemAnimator(new DefaultItemAnimator());
         listPeople.setAdapter(personAdapter);
-        listPeople.setOnItemClickListener(this);
+
+        ItemTouchHelper.Callback callback = new PersonTouchHelper(personAdapter);
+        ItemTouchHelper touchHelper = new ItemTouchHelper(callback);
+        touchHelper.attachToRecyclerView(listPeople);
     }
 
     @Override
@@ -54,18 +63,11 @@ public class DatabaseActivity extends AppCompatActivity implements AdapterView.O
         return super.onOptionsItemSelected(item);
     }
     
+    @SuppressLint("NotifyDataSetChanged")
     @Override
     protected void onResume() {
         Log.d(TAG, "onResume: called");
         if (database.isDirty) personAdapter.notifyDataSetChanged();
         super.onResume();
-    }
-
-    @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        PersonEntry person = database.remove(position);
-        Log.d(TAG, "onItemClick: clicked item " + person);
-        personAdapter.notifyDataSetChanged();
-        Toast.makeText(this, String.format("Removed %s %s", person.getForename(), person.getSurname()), Toast.LENGTH_SHORT).show();
     }
 }
