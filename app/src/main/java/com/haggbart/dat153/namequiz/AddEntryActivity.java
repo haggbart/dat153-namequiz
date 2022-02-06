@@ -2,6 +2,7 @@ package com.haggbart.dat153.namequiz;
 
 import static com.haggbart.dat153.namequiz.helper.ImageHelper.getUri;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -12,7 +13,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import androidx.annotation.Nullable;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.haggbart.dat153.namequiz.database.People;
@@ -30,6 +32,7 @@ public class AddEntryActivity extends AppCompatActivity implements View.OnClickL
     private Uri imageUri;
 
     private ImageView ivImage;
+    private ActivityResultLauncher<Intent> chooseImageResult;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +48,19 @@ public class AddEntryActivity extends AppCompatActivity implements View.OnClickL
         Button btnChoose = findViewById(R.id.btnChoose);
         btnAddEntry.setOnClickListener(this);
         btnChoose.setOnClickListener(this);
+
+        chooseImageResult = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                result -> {
+                    if (result.getResultCode() != Activity.RESULT_OK || result.getData() == null)
+                        return;
+                    imageUri = result.getData().getData();
+                    getContentResolver().takePersistableUriPermission(imageUri, Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                    Log.d(TAG, "onActivityResult: uri: " + imageUri);
+                    Log.d(TAG, "onActivityResult: result: " + result);
+                    ivImage.setImageURI(imageUri);
+                }
+        );
     }
 
     // TODO: refactor methods
@@ -53,11 +69,12 @@ public class AddEntryActivity extends AppCompatActivity implements View.OnClickL
         Log.d(TAG, "onClick: button clicked: " + view.getResources().getResourceEntryName(view.getId()));
 
         if (view.getId() == R.id.btnChoose) {
+
             Intent intent = new Intent();
             intent.setType("image/*");
             intent.setAction(Intent.ACTION_OPEN_DOCUMENT);
             intent.addCategory(Intent.CATEGORY_OPENABLE);
-            startActivityForResult(intent, REQUEST_IMAGE_GET);
+            chooseImageResult.launch(intent);
             return;
         }
 
@@ -77,17 +94,5 @@ public class AddEntryActivity extends AppCompatActivity implements View.OnClickL
         forename.setText("");
         surname.setText("");
         Toast.makeText(this, String.format("%s %s added to the database", person.getForename(), person.getSurname()), Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        assert data != null;
-
-        imageUri = data.getData();
-        getContentResolver().takePersistableUriPermission(imageUri, Intent.FLAG_GRANT_READ_URI_PERMISSION);
-        Log.d(TAG, "onActivityResult: uri: " + imageUri);
-        Log.d(TAG, "onActivityResult: data: " + data);
-        ivImage.setImageURI(imageUri);
     }
 }

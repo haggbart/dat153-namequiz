@@ -1,3 +1,14 @@
 <resources>
     <string name="app_name">Name Quiz</string>
+    <string name="first_name">First Name</string>
+    <string name="last_name">Last Name</string>
+    <string name="add_new_entry">Add new entry</string>
+    <string name="choose">Choose</string>
+    <string name="insert_photo_placeholder">Insert photo placeholder</string>
+    <string name="image_of_person">Image of person</string>
+    <string name="main_menu_quiz">🕹 Quiz</string>
+    <string name="main_menu_database">💿 Database</string>
+    <string name="main_meny_add_entry">📇 Add Entry</string>
+    <string name="sort_entries">Sort entries</string>
+    <string name="add_entry">Add entry</string>
 </resources>

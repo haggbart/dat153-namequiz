@@ -4,11 +4,11 @@
 
     <item
         android:id="@+id/mnuSortEntries"
-        android:title="Sort entries"
+        android:title="@string/sort_entries"
         app:showAsAction="never" />
     <item
         android:id="@+id/mnuAddEntry"
         android:icon="@drawable/add_person"
-        android:title="Add entry"
+        android:title="@string/add_entry"
         app:showAsAction="ifRoom" />
 </menu>

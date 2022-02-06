@@ -16,6 +16,7 @@ import com.haggbart.dat153.namequiz.person.PersonEntry;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 import java.util.Random;
 
 public class QuizActivity extends AppCompatActivity implements View.OnClickListener {
@@ -104,8 +105,8 @@ public class QuizActivity extends AppCompatActivity implements View.OnClickListe
         }
         attempts++;
         
-        tvStats.setText("Score: " + points + "/" + attempts);
-        tvStatsPercent.setText(String.format("%.0f%%", (points / (float)attempts * 100)));
+        tvStats.setText(String.format(Locale.ROOT, "Score: %d/%d", points, attempts));
+        tvStatsPercent.setText(String.format(Locale.ROOT, "%.0f%%", (points / (float)attempts * 100)));
 
         ((Button) view).setBackgroundColor(ContextCompat.getColor(this, R.color.red));
         btnAnswers[correctAnswer].setBackgroundColor(ContextCompat.getColor(this, R.color.green));
