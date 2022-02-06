@@ -1,5 +1,7 @@
 package com.haggbart.dat153.namequiz;
 
+import static com.haggbart.dat153.namequiz.helper.ImageHelper.getUri;
+
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -71,6 +73,9 @@ public class AddEntryActivity extends AppCompatActivity implements View.OnClickL
         }
 
         database.isDirty = true;
+        ivImage.setImageURI(getUri(R.drawable.insert_photo));
+        forename.setText("");
+        surname.setText("");
         Toast.makeText(this, String.format("%s %s added to the database", person.getForename(), person.getSurname()), Toast.LENGTH_SHORT).show();
     }
 

@@ -16,10 +16,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.haggbart.dat153.namequiz.database.People;
 import com.haggbart.dat153.namequiz.person.PersonAdapter;
-import com.haggbart.dat153.namequiz.person.PersonEntry;
 import com.haggbart.dat153.namequiz.person.PersonTouchHelper;
 
 import java.util.Comparator;
+import java.util.Locale;
 
 public class DatabaseActivity extends AppCompatActivity {
 
@@ -63,7 +63,7 @@ public class DatabaseActivity extends AppCompatActivity {
             Intent intent = new Intent(this, AddEntryActivity.class);
             startActivity(intent);
         } else if (id == R.id.mnuSortEntries) {
-            database.getPeople().sort(Comparator.comparing(PersonEntry::getFullName));
+            database.getPeople().sort(Comparator.comparing(p -> p.getFullName().toLowerCase(Locale.ROOT)));
             personAdapter.notifyDataSetChanged();
         }
         return super.onOptionsItemSelected(item);
