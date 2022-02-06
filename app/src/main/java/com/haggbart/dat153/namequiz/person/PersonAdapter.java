@@ -45,16 +45,17 @@ public class PersonAdapter<T extends PersonEntry> extends ArrayAdapter<T> {
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         ViewHolder viewHolder;
         if (convertView == null) {
+            Log.d(TAG, "getView: creating new view");
             convertView = layoutInflater.inflate(layoutResource, parent, false);
             viewHolder = new ViewHolder(convertView);
             convertView.setTag(viewHolder);
         } else {
+            Log.d(TAG, "getView: reusing view");
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
         T person = people.get(position);
         viewHolder.tvForename.setText(String.format("%s %s", person.getForename(), person.getSurname()));
-        Log.d(TAG, "getView: imageUri: " + person.getImageUri());
         viewHolder.ivImage.setImageURI(person.getImageUri() == null ? getUri(R.drawable.placeholder) : person.getImageUri());
         return convertView;
     }

@@ -4,14 +4,19 @@ import static com.haggbart.dat153.namequiz.helper.ImageHelper.getUri;
 
 import android.util.Log;
 
+import com.github.javafaker.Faker;
 import com.haggbart.dat153.namequiz.R;
 import com.haggbart.dat153.namequiz.person.PersonEntry;
+
+import java.util.Locale;
 
 public class Bootstrap {
 
 
     private static final String TAG = "Bootstrap";
     private final People database = People.getInstance();
+    private final Faker faker = new Faker(new Locale("nb-NO"));
+
 
     public void initialize() {
         
@@ -29,6 +34,10 @@ public class Bootstrap {
                 new PersonEntry("Roger", "Karlsen", getUri(R.drawable.roger_karlsen)),
                 new PersonEntry("Volker", "Stolz", getUri(R.drawable.volker_stolz))
         );
-        Log.d(TAG, "initialize: successful");
+
+//        for (int i = 0; i < 1000000; i++) {
+//            database.add(new PersonEntry(faker.name().firstName(), faker.name().lastName()));
+//        }
+        Log.d(TAG, "Bootstrap initialized");
     }
 }
