@@ -4,11 +4,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.haggbart.dat153.namequiz.database.Bootstrap;
+
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -20,11 +21,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Button btnQuiz = findViewById(R.id.btnQuiz);
-        Button btnDatabase = findViewById(R.id.btnDatabase);
+        TextView tvQuiz = findViewById(R.id.tvQuiz);
+        TextView tvDatabase = findViewById(R.id.tvDatabase);
+        TextView tvAddEntry = findViewById(R.id.tvAddEntry);
 
-        btnQuiz.setOnClickListener(this);
-        btnDatabase.setOnClickListener(this);
+        tvQuiz.setOnClickListener(this);
+        tvDatabase.setOnClickListener(this);
+        tvAddEntry.setOnClickListener(this);
     }
 
 
@@ -34,10 +37,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Intent intent = new Intent(this, DatabaseActivity.class);
 
         int id = view.getId();
-        if (id == R.id.btnQuiz) {
+        if (id == R.id.tvQuiz) {
             intent = new Intent(this, QuizActivity.class);
-        } else if (id == R.id.btnDatabase) {
+        } else if (id == R.id.tvDatabase) {
             intent = new Intent(this, DatabaseActivity.class);
+        } else if (id == R.id.tvAddEntry) {
+            intent = new Intent(this, AddEntryActivity.class);
         }
         startActivity(intent);
     }

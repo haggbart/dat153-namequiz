@@ -63,20 +63,22 @@
         android:id="@+id/tvStats"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        app:layout_constraintBaseline_toBaselineOf="@+id/tvStatsPercent"
-        app:layout_constraintStart_toEndOf="@+id/tvStatsPercent"
-        tools:text="4/10" />
+        android:background="#7A000000"
+        android:paddingHorizontal="8dp"
+        android:textColor="@color/white"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="@+id/ivImage"
+        app:layout_constraintEnd_toEndOf="@+id/ivImage"
+        tools:text="Score: 4/10" />
 
     <TextView
         android:id="@+id/tvStatsPercent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:gravity="center"
         android:textColor="#FF9800"
-        android:textSize="34sp"
+        android:textSize="96sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnAnswer2"
         tools:text="100%" />

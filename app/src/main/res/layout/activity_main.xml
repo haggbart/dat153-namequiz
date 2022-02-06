@@ -6,33 +6,58 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <Button
-        android:id="@+id/btnDatabase"
+    <TextView
+        android:id="@+id/tvQuiz"
         android:layout_width="wrap_content"
-        android:layout_height="48dp"
-        android:layout_marginTop="32dp"
-        android:text="Database"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp"
+        android:text="🕹 Quiz"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toTopOf="@+id/tvDatabase"
+        app:layout_constraintStart_toStartOf="@+id/tvDatabase" />
+
+
+    <View
+        android:id="@+id/divider1"
+        style="@style/Divider"
+        android:layout_width="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/tvDatabase"
+        app:layout_constraintEnd_toEndOf="@+id/tvDatabase"
+        app:layout_constraintStart_toStartOf="@+id/tvQuiz"
+        app:layout_constraintTop_toBottomOf="@+id/tvQuiz" />
+
+    <View
+        android:id="@+id/divider2"
+        style="@style/Divider"
+        android:layout_width="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/tvAddEntry"
+        app:layout_constraintEnd_toEndOf="@+id/tvDatabase"
+        app:layout_constraintStart_toStartOf="@+id/tvDatabase"
+        app:layout_constraintTop_toBottomOf="@+id/tvDatabase" />
+
+    <TextView
+        android:id="@+id/tvDatabase"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="💿 Database"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnQuiz" />
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/btnQuiz"
+    <TextView
+        android:id="@+id/tvAddEntry"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:text="Start Quiz"
-        app:layout_constraintBottom_toTopOf="@+id/guideline5"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline5"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.5" />
+        android:layout_marginTop="24dp"
+        android:text="📇 Add Entry"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+        android:textSize="24sp"
+        app:layout_constraintStart_toStartOf="@+id/tvDatabase"
+        app:layout_constraintTop_toBottomOf="@+id/tvDatabase" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
