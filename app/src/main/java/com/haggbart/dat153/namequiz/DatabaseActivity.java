@@ -16,7 +16,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.haggbart.dat153.namequiz.database.People;
 import com.haggbart.dat153.namequiz.person.PersonAdapter;
+import com.haggbart.dat153.namequiz.person.PersonEntry;
 import com.haggbart.dat153.namequiz.person.PersonTouchHelper;
+
+import java.util.Comparator;
 
 public class DatabaseActivity extends AppCompatActivity {
 
@@ -32,7 +35,6 @@ public class DatabaseActivity extends AppCompatActivity {
         setContentView(R.layout.activity_database);
 
         RecyclerView listPeople = findViewById(R.id.listPeople);
-
 
         personAdapter = new PersonAdapter();
 
@@ -51,6 +53,7 @@ public class DatabaseActivity extends AppCompatActivity {
         return true;
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         Log.d(TAG, "onOptionsItemSelected: menu item selected: " + item.getTitle());
@@ -59,6 +62,9 @@ public class DatabaseActivity extends AppCompatActivity {
         if (id == R.id.mnuAddEntry) {
             Intent intent = new Intent(this, AddEntryActivity.class);
             startActivity(intent);
+        } else if (id == R.id.mnuSortEntries) {
+            database.getPeople().sort(Comparator.comparing(PersonEntry::getFullName));
+            personAdapter.notifyDataSetChanged();
         }
         return super.onOptionsItemSelected(item);
     }
