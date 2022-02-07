@@ -10,6 +10,9 @@ import com.haggbart.dat153.namequiz.person.PersonEntry;
 
 import java.util.Locale;
 
+/**
+ * Initialize some data for the nonpersistent "database".
+ */
 public class Bootstrap {
 
 
@@ -36,9 +39,9 @@ public class Bootstrap {
                 new PersonEntry("Mads Henrik", "Sørbø", getUri(R.drawable.mads_henrik))
         );
 
-//        for (int i = 0; i < 100_000; i++) {
-//            database.add(new PersonEntry(faker.name().firstName(), faker.name().lastName()));
-//        }
+        for (int i = 0; i < 100_000; i++) {
+            database.add(new PersonEntry(faker.name().firstName(), faker.name().lastName()));
+        }
         Log.d(TAG, "Bootstrap initialized");
     }
 }
