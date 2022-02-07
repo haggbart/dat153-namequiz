@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -20,12 +19,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.haggbart.dat153.namequiz.database.People;
 import com.haggbart.dat153.namequiz.person.PersonEntry;
 
-public class AddEntryActivity extends AppCompatActivity implements View.OnClickListener {
+public class AddEntryActivity extends AppCompatActivity {
 
     private static final String TAG = "AddEntryActivity";
 
     private static final People database = People.getInstance();
-    private static final int REQUEST_IMAGE_GET = 1;
 
     private EditText forename;
     private EditText surname;
@@ -44,16 +42,21 @@ public class AddEntryActivity extends AppCompatActivity implements View.OnClickL
 
         ivImage = findViewById(R.id.ivImage);
 
-        Button btnAddEntry = findViewById(R.id.btnAddEntry);
-        Button btnChoose = findViewById(R.id.btnChoose);
-        btnAddEntry.setOnClickListener(this);
-        btnChoose.setOnClickListener(this);
 
-        chooseImageResult = registerForActivityResult(
-                new ActivityResultContracts.StartActivityForResult(),
-                result -> {
-                    if (result.getResultCode() != Activity.RESULT_OK || result.getData() == null)
-                        return;
+        Button btnChoose = findViewById(R.id.btnChoose);
+        Button btnAddEntry = findViewById(R.id.btnAddEntry);
+        btnChoose.setOnClickListener(view -> chooseImage());
+        btnAddEntry.setOnClickListener(view -> addEntry());
+
+
+        /*
+         * Creates an ActivityResultLauncher<Intent> that set URI for selected image on the imageView.
+         * This is the "new" way of doing since onActivityResult was depricated.
+         *
+         * Also flags the view with URI permission so it can be opened later.
+         */
+        chooseImageResult = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
+                    if (result.getResultCode() != Activity.RESULT_OK || result.getData() == null) return;
                     imageUri = result.getData().getData();
                     getContentResolver().takePersistableUriPermission(imageUri, Intent.FLAG_GRANT_READ_URI_PERMISSION);
                     Log.d(TAG, "onActivityResult: uri: " + imageUri);
@@ -63,23 +66,16 @@ public class AddEntryActivity extends AppCompatActivity implements View.OnClickL
         );
     }
 
-    // TODO: refactor methods
-    @Override
-    public void onClick(View view) {
-        Log.d(TAG, "onClick: button clicked: " + view.getResources().getResourceEntryName(view.getId()));
+    private void chooseImage() {
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_OPEN_DOCUMENT);
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+        chooseImageResult.launch(intent);
+    }
 
-        if (view.getId() == R.id.btnChoose) {
 
-            Intent intent = new Intent();
-            intent.setType("image/*");
-            intent.setAction(Intent.ACTION_OPEN_DOCUMENT);
-            intent.addCategory(Intent.CATEGORY_OPENABLE);
-            chooseImageResult.launch(intent);
-            return;
-        }
-
-        if (view.getId() != R.id.btnAddEntry) return;
-
+    private void addEntry() {
         PersonEntry person = new PersonEntry(forename.getText().toString(), surname.getText().toString(), imageUri);
 
         Log.d(TAG, "onClick: imageUri: " + imageUri);

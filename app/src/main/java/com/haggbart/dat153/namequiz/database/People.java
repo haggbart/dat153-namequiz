@@ -7,6 +7,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * Threadsafe singleton class, the "database"
+ */
 public class People {
 
     private static final String TAG = "Database";

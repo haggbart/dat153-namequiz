@@ -22,13 +22,28 @@ public class PersonAdapter extends RecyclerView.Adapter<PersonAdapter.ViewHolder
 
     private final People database = People.getInstance();
 
+    /**
+     * Called by RecyclerView when it needs to create a new ViewHolder.
+     * This will only be called a few times as it will recycle old views (Viewholder pattern)
+     *
+     * @param parent parent view
+     * @param viewType type of view
+     * @return new ViewHolder object
+     */
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        Log.d(TAG, "onCreateViewHolder: called");
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_record, parent, false);
         return new ViewHolder(itemView);
     }
 
+    /**
+     * Called by RecyclerView to fetch and fill the ViewHolder's fields
+     *
+     * @param holder the viewholder
+     * @param position position in the list
+     */
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         PersonEntry person = database.get(position);
@@ -41,6 +56,12 @@ public class PersonAdapter extends RecyclerView.Adapter<PersonAdapter.ViewHolder
         return database.getPeople().size();
     }
 
+    /**
+     * Called by TouchHelper when an element is swiped left or right
+     *
+     * @param view the view that was swiped
+     * @param position the position of the element
+     */
     @Override
     public void onItemDismiss(View view, int position) {
         Log.d(TAG, "onItemDismiss: position: " + position);
@@ -49,6 +70,9 @@ public class PersonAdapter extends RecyclerView.Adapter<PersonAdapter.ViewHolder
         Toast.makeText(view.getContext(), String.format("Removed %s %s", person.getForename(), person.getSurname()), Toast.LENGTH_SHORT).show();
     }
 
+    /**
+     * ViewHolder used in the viewholder pattern
+     */
     protected static class ViewHolder extends RecyclerView.ViewHolder {
         final ImageView ivImage;
         final TextView tvForename;
