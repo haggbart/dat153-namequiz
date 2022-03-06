@@ -16,25 +16,28 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.haggbart.dat153.namequiz.database.People;
+import com.haggbart.dat153.namequiz.data.AppDatabase;
+import com.haggbart.dat153.namequiz.person.PersonDao;
 import com.haggbart.dat153.namequiz.person.PersonEntry;
 
 public class AddEntryActivity extends AppCompatActivity {
 
     private static final String TAG = "AddEntryActivity";
 
-    private static final People database = People.getInstance();
+    private PersonDao dao;
 
     private EditText forename;
     private EditText surname;
     private Uri imageUri;
-
     private ImageView ivImage;
+
     private ActivityResultLauncher<Intent> chooseImageResult;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        this.dao = AppDatabase.getINSTANCE(getApplicationContext()).personDao();
+
         setContentView(R.layout.activity_add_entry);
 
         forename = findViewById(R.id.etForename);
@@ -80,12 +83,12 @@ public class AddEntryActivity extends AppCompatActivity {
 
         Log.d(TAG, "onClick: imageUri: " + imageUri);
 
-        if (imageUri == null || !database.add(person)) {
+        if (imageUri == null || person.getForename() == null || person.getSurname() == null) {
             Toast.makeText(this, "Please input all the required fields", Toast.LENGTH_SHORT).show();
             return;
         }
+        dao.insertPerson(person);
 
-        database.isDirty = true;
         ivImage.setImageURI(getUri(R.drawable.insert_photo));
         forename.setText("");
         surname.setText("");

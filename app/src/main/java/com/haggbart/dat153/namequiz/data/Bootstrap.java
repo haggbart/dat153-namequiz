@@ -1,4 +1,4 @@
-package com.haggbart.dat153.namequiz.database;
+package com.haggbart.dat153.namequiz.data;
 
 import static com.haggbart.dat153.namequiz.helper.ImageHelper.getUri;
 
@@ -6,8 +6,12 @@ import android.util.Log;
 
 import com.github.javafaker.Faker;
 import com.haggbart.dat153.namequiz.R;
+import com.haggbart.dat153.namequiz.person.PersonDao;
 import com.haggbart.dat153.namequiz.person.PersonEntry;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Locale;
 
 /**
@@ -15,15 +19,14 @@ import java.util.Locale;
  */
 public class Bootstrap {
 
-
     private static final String TAG = "Bootstrap";
-    private final People database = People.getInstance();
     private final Faker faker = new Faker(new Locale("nb-NO"));
 
+    public void initialize(PersonDao dao) {
 
-    public void initialize() {
-        
-        database.add(
+        if (dao.getAllPeople().size() > 0) return;
+
+        PersonEntry[] people = new PersonEntry[]{
                 new PersonEntry("Eli", "Nummedal", getUri(R.drawable.eli_nummedal)),
                 new PersonEntry("Finn", "Arne", getUri(R.drawable.finn_arne)),
                 new PersonEntry("Per", "Otto", getUri(R.drawable.per_otto)),
@@ -37,11 +40,13 @@ public class Bootstrap {
                 new PersonEntry("Roger", "Karlsen", getUri(R.drawable.roger_karlsen)),
                 new PersonEntry("Volker", "Stolz", getUri(R.drawable.volker_stolz)),
                 new PersonEntry("Mads Henrik", "Sørbø", getUri(R.drawable.mads_henrik))
-        );
+        };
 
-        for (int i = 0; i < 100_000; i++) {
-            database.add(new PersonEntry(faker.name().firstName(), faker.name().lastName()));
-        }
+        dao.insertPerson(people);
+
+//        for (int i = 0; i < 100_000; i++) {
+//            database.add(new PersonEntry(faker.name().firstName(), faker.name().lastName()));
+//        }
         Log.d(TAG, "Bootstrap initialized");
     }
 }

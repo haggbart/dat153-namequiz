@@ -8,17 +8,26 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.haggbart.dat153.namequiz.database.Bootstrap;
+import com.haggbart.dat153.namequiz.data.AppDatabase;
+import com.haggbart.dat153.namequiz.data.Bootstrap;
+import com.haggbart.dat153.namequiz.person.PersonDao;
 
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     private static final String TAG = "MainActivity";
+    private PersonDao dao;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        new Bootstrap().initialize();
+        dao = AppDatabase.getINSTANCE(getApplicationContext()).personDao();
+        new Bootstrap().initialize(dao);
         super.onCreate(savedInstanceState);
+
+        var people = dao.getAllPeople();
+        Log.d(TAG, "onCreate: people: " + people.size());
+        people.forEach(p -> Log.d(TAG, "onCreate: person: " + p));
+
         setContentView(R.layout.activity_main);
 
         TextView tvQuiz = findViewById(R.id.tvQuiz);
