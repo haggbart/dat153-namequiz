@@ -2,6 +2,7 @@ package com.haggbart.dat153.namequiz.person;
 
 import static com.haggbart.dat153.namequiz.helper.ImageHelper.getUri;
 
+import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,13 +15,21 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.haggbart.dat153.namequiz.R;
-import com.haggbart.dat153.namequiz.database.People;
+import com.haggbart.dat153.namequiz.data.AppDatabase;
+
+import java.util.List;
 
 public class PersonAdapter extends RecyclerView.Adapter<PersonAdapter.ViewHolder> implements PersonTouchHelperAdapter {
 
     private static final String TAG = "PersonAdapter";
 
-    private final People database = People.getInstance();
+    private final List<PersonEntry> people;
+    private final PersonDao dao;
+
+    public PersonAdapter(Context applicationContext, List<PersonEntry> people) {
+        this.dao = AppDatabase.getINSTANCE(applicationContext).personDao();
+        this.people = people;
+    }
 
     /**
      * Called by RecyclerView when it needs to create a new ViewHolder.
@@ -46,14 +55,14 @@ public class PersonAdapter extends RecyclerView.Adapter<PersonAdapter.ViewHolder
      */
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        PersonEntry person = database.get(position);
+        PersonEntry person = people.get(position);
         holder.tvForename.setText(String.format("%s %s", person.getForename(), person.getSurname()));
         holder.ivImage.setImageURI(person.getImageUri() == null ? getUri(R.drawable.placeholder) : person.getImageUri());
     }
 
     @Override
     public int getItemCount() {
-        return database.getPeople().size();
+        return people.size();
     }
 
     /**
@@ -65,7 +74,8 @@ public class PersonAdapter extends RecyclerView.Adapter<PersonAdapter.ViewHolder
     @Override
     public void onItemDismiss(View view, int position) {
         Log.d(TAG, "onItemDismiss: position: " + position);
-        PersonEntry person = database.remove(position);
+        PersonEntry person = people.remove(position);
+        dao.delete(person);
         notifyItemRemoved(position);
         Toast.makeText(view.getContext(), String.format("Removed %s %s", person.getForename(), person.getSurname()), Toast.LENGTH_SHORT).show();
     }

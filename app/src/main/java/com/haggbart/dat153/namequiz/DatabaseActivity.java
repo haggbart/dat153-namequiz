@@ -15,8 +15,9 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.haggbart.dat153.namequiz.database.People;
+import com.haggbart.dat153.namequiz.data.AppDatabase;
 import com.haggbart.dat153.namequiz.person.PersonAdapter;
+import com.haggbart.dat153.namequiz.person.PersonDao;
 import com.haggbart.dat153.namequiz.person.PersonTouchHelper;
 
 import java.util.Comparator;
@@ -26,26 +27,16 @@ public class DatabaseActivity extends AppCompatActivity {
 
     private static final String TAG = "DatabaseActivity";
 
-    private final People database = People.getInstance();
-
     private PersonAdapter personAdapter;
+    private PersonDao dao;
+    private RecyclerView recyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_database);
 
-        RecyclerView listPeople = findViewById(R.id.listPeople);
-
-        personAdapter = new PersonAdapter();
-
-        listPeople.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-        listPeople.setItemAnimator(new DefaultItemAnimator());
-        listPeople.setAdapter(personAdapter);
-
-        ItemTouchHelper.Callback callback = new PersonTouchHelper(personAdapter);
-        ItemTouchHelper touchHelper = new ItemTouchHelper(callback);
-        touchHelper.attachToRecyclerView(listPeople);
+        recyclerView = findViewById(R.id.listPeople);
     }
 
     @Override
@@ -64,18 +55,26 @@ public class DatabaseActivity extends AppCompatActivity {
             Intent intent = new Intent(this, AddEntryActivity.class);
             startActivity(intent);
         } else if (id == R.id.mnuSortEntries) {
-            database.getPeople().sort(Comparator.comparing(p -> p.getFullName().toLowerCase(Locale.ROOT)));
+            dao.getAllPeople().sort(Comparator.comparing(p -> p.getFullName().toLowerCase(Locale.ROOT)));
             personAdapter.notifyDataSetChanged();
             Toast.makeText(this, "Entries sorted", Toast.LENGTH_SHORT).show();
         }
         return super.onOptionsItemSelected(item);
     }
     
-    @SuppressLint("NotifyDataSetChanged")
     @Override
     protected void onResume() {
         Log.d(TAG, "onResume: called");
-        if (database.isDirty) personAdapter.notifyDataSetChanged();
+        dao = AppDatabase.getINSTANCE(getApplicationContext()).personDao();
+        personAdapter = new PersonAdapter(getApplicationContext(), dao.getAllPeople());
+
+        recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        recyclerView.setAdapter(personAdapter);
+
+        ItemTouchHelper.Callback callback = new PersonTouchHelper(personAdapter);
+        ItemTouchHelper touchHelper = new ItemTouchHelper(callback);
+        touchHelper.attachToRecyclerView(recyclerView);
         super.onResume();
     }
 }

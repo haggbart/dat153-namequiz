@@ -3,18 +3,25 @@ package com.haggbart.dat153.namequiz.person;
 
 import android.net.Uri;
 
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
 import java.util.Objects;
 
+@Entity
 public class PersonEntry {
 
-    private String forename;
-    private String surname;
-    private Uri imageUri;
+    @PrimaryKey(autoGenerate = true)
+    public int uid;
 
-    public PersonEntry(String forename, String surname) {
-        this.forename = forename;
-        this.surname = surname;
-    }
+    @ColumnInfo(name = "forname")
+    private String forename;
+    @ColumnInfo(name = "surname")
+    private String surname;
+
+    @ColumnInfo(name = "imageUri")
+    private Uri imageUri;
 
     public PersonEntry(String forename, String surname, Uri imageUri) {
         this.forename = forename;
@@ -54,12 +61,24 @@ public class PersonEntry {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
+
         PersonEntry that = (PersonEntry) o;
-        return forename.equals(that.forename) && surname.equals(that.surname);
+
+        return uid == that.uid;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(forename, surname);
+        return uid;
+    }
+
+    @Override
+    public String toString() {
+        return "PersonEntry{" +
+                "uid=" + uid +
+                ", forename='" + forename + '\'' +
+                ", surname='" + surname + '\'' +
+                ", imageUri=" + imageUri +
+                '}';
     }
 }

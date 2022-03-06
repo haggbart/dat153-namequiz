@@ -2,6 +2,7 @@ package com.haggbart.dat153.namequiz;
 
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -10,7 +11,8 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
-import com.haggbart.dat153.namequiz.database.People;
+import com.haggbart.dat153.namequiz.data.AppDatabase;
+import com.haggbart.dat153.namequiz.person.PersonDao;
 import com.haggbart.dat153.namequiz.person.PersonEntry;
 
 import java.util.ArrayList;
@@ -23,7 +25,7 @@ public class QuizActivity extends AppCompatActivity implements View.OnClickListe
 
     private static final String TAG = "QuizActivity";
 
-    private final People database = People.getInstance();
+    private PersonDao dao;
 
     private final Random random = new Random();
 
@@ -58,8 +60,8 @@ public class QuizActivity extends AppCompatActivity implements View.OnClickListe
         tvStats = findViewById(R.id.tvStats);
         tvStatsPercent = findViewById(R.id.tvStatsPercent);
 
-
-        shuffledPeople = new ArrayList<>(database.getPeople());
+        dao = AppDatabase.getINSTANCE(getApplicationContext()).personDao();
+        shuffledPeople = new ArrayList<>(dao.getAllPeople());
         Collections.shuffle(shuffledPeople);
 
         for (var btn : btnAnswers) {
@@ -108,10 +110,9 @@ public class QuizActivity extends AppCompatActivity implements View.OnClickListe
         tvStats.setText(String.format(Locale.ROOT, "Score: %d/%d", points, attempts));
         tvStatsPercent.setText(String.format(Locale.ROOT, "%.0f%%", (points / (float)attempts * 100)));
 
-        ((Button) view).setBackgroundColor(ContextCompat.getColor(this, R.color.red));
+        view.setBackgroundColor(ContextCompat.getColor(this, R.color.red));
         btnAnswers[correctAnswer].setBackgroundColor(ContextCompat.getColor(this, R.color.green));
         new CountDownTimer(1000, 1000) {
-
 
             public void onTick(long millisUntilFinished) { }
 
@@ -122,5 +123,11 @@ public class QuizActivity extends AppCompatActivity implements View.OnClickListe
                 nextPerson();
             }
         }.start();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.d(TAG, "onDestroy: called");
     }
 }
