@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.haggbart.dat153.namequiz.data.AppDatabase;
 import com.haggbart.dat153.namequiz.data.Bootstrap;
 import com.haggbart.dat153.namequiz.person.PersonDao;
+import com.haggbart.dat153.namequiz.quiz.QuizActivity;
 
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {

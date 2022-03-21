@@ -3,11 +3,8 @@ package com.haggbart.dat153.namequiz.person;
 
 import android.net.Uri;
 
-import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
-
-import java.util.Objects;
 
 @Entity
 public class PersonEntry {
@@ -15,12 +12,8 @@ public class PersonEntry {
     @PrimaryKey(autoGenerate = true)
     public int uid;
 
-    @ColumnInfo(name = "forname")
     private String forename;
-    @ColumnInfo(name = "surname")
     private String surname;
-
-    @ColumnInfo(name = "imageUri")
     private Uri imageUri;
 
     public PersonEntry(String forename, String surname, Uri imageUri) {
