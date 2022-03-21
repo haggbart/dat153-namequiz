@@ -26,7 +26,6 @@ public class QuizActivity extends AppCompatActivity implements View.OnClickListe
 
     private static final String TAG = "QuizActivity";
 
-    // Views
     private ImageView ivImage;
     private final Button[] btnAnswers = new Button[ANSWERS_TOTAL];
     private TextView tvStatsPercent;
@@ -102,11 +101,5 @@ public class QuizActivity extends AppCompatActivity implements View.OnClickListe
                 setPerson();
             }
         }.start();
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        Log.d(TAG, "onDestroy: called");
     }
 }
