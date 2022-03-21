@@ -11,8 +11,7 @@ import com.haggbart.dat153.namequiz.helper.Converters;
 import com.haggbart.dat153.namequiz.person.PersonDao;
 import com.haggbart.dat153.namequiz.person.PersonEntry;
 
-@Database(entities = {PersonEntry.class}, version = 1, exportSchema = false)
-
+@Database(entities = {PersonEntry.class}, version = 2, exportSchema = false)
 @TypeConverters({Converters.class})
 public abstract class AppDatabase extends RoomDatabase {
     public abstract PersonDao personDao();
