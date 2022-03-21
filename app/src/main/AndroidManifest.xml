@@ -9,7 +9,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.NameQuiz">
         <activity
-            android:name=".QuizActivity"
+            android:name=".quiz.QuizActivity"
             android:exported="false"
             android:label="Quiz"/>
         <activity
