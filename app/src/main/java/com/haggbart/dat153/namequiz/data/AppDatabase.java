@@ -19,7 +19,7 @@ public abstract class AppDatabase extends RoomDatabase {
     private static AppDatabase INSTANCE;
 
     // TODO disallow main thread queries
-    // Double-checked locking for performance
+    // Double-checked locking for performance (avoid acquiring a potentially unnecessary lock)
     public static AppDatabase getINSTANCE(Context applicationContext) {
         if (INSTANCE == null) {
             synchronized (AppDatabase.class) {

@@ -80,7 +80,7 @@ public class QuizActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View view) {
-        state.answer(Integer.parseInt((String) view.getTag()));
+        state.guess(Integer.parseInt((String) view.getTag()));
 
         updateStats();
 

@@ -25,8 +25,8 @@ public class QuizState extends ViewModel {
     protected int points;
     protected int attempts;
 
-    public void answer(int guess) {
-        if (correctAnswer == guess) {
+    public void guess(int option) {
+        if (correctAnswer == option) {
             points++;
         }
         attempts++;
@@ -47,7 +47,7 @@ public class QuizState extends ViewModel {
         }
     }
 
-    private String randomName() {
+    public String randomName() {
         String randomName;
         do {
             randomName = shuffledPeople.get(random.nextInt(shuffledPeople.size())).getFullName();
