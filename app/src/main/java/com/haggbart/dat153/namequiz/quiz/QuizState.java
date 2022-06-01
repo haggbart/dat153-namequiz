@@ -15,15 +15,22 @@ public class QuizState extends ViewModel {
 
     private final Random random = new Random();
 
-    public int nextCount;
-    public List<PersonEntry> shuffledPeople;
-    public List<String> options;
-    public PersonEntry currentPerson;
-    public int correctAnswer;
+    protected int nextCount;
+    protected List<PersonEntry> shuffledPeople;
+    protected List<String> options;
+    protected PersonEntry currentPerson;
+    protected int correctAnswer;
 
     // Stats
-    public int points;
-    public int attempts;
+    protected int points;
+    protected int attempts;
+
+    public void answer(int guess) {
+        if (correctAnswer == guess) {
+            points++;
+        }
+        attempts++;
+    }
 
     public void nextPerson() {
         currentPerson = shuffledPeople.get(nextCount++);
