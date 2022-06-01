@@ -32,7 +32,8 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ivImage"
-        tools:text="Answer0" />
+        tools:text="Answer0"
+        android:tag="0"/>
 
     <Button
         android:id="@+id/btnAnswer1"
@@ -45,7 +46,8 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnAnswer0"
-        tools:text="Answer1" />
+        tools:text="Answer1"
+        android:tag="1"/>
 
     <Button
         android:id="@+id/btnAnswer2"
@@ -58,7 +60,8 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnAnswer1"
-        tools:text="Answer2" />
+        tools:text="Answer2"
+        android:tag="2"/>
 
     <TextView
         android:id="@+id/tvStats"

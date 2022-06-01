@@ -80,10 +80,7 @@ public class QuizActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View view) {
-        if (btnAnswers[state.correctAnswer].equals(view)) {
-            state.points++;
-        }
-        state.attempts++;
+        state.answer(Integer.parseInt((String) view.getTag()));
         updateStats();
 
         view.setBackgroundColor(ContextCompat.getColor(this, R.color.red));
