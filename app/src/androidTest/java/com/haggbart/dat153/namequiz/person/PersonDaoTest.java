@@ -21,12 +21,11 @@ import org.junit.runner.RunWith;
 public class PersonDaoTest {
 
     private PersonDao dao;
-    private AppDatabase database;
 
     @Before
     public void setUp() throws Exception {
         Context context = ApplicationProvider.getApplicationContext();
-        database = Room.inMemoryDatabaseBuilder(context, AppDatabase.class).build();
+        AppDatabase database = Room.inMemoryDatabaseBuilder(context, AppDatabase.class).build();
         dao = database.personDao();
         new Bootstrap().initialize(dao);
     }
@@ -41,6 +40,15 @@ public class PersonDaoTest {
         int before = dao.getAllPeople().size();
         dao.insertPerson(new PersonEntry("Test", "Testsson", dao.getAllPeople().get(0).getImageUri()));
         assertEquals(dao.getAllPeople().size(), before + 1);
+    }
+
+    @Test
+    public void insertMultiplePeople() {
+        int before = dao.getAllPeople().size();
+        dao.insertPerson(
+                new PersonEntry("Test", "Testsson", dao.getAllPeople().get(0).getImageUri()),
+                new PersonEntry("Test2", "Testsson2", dao.getAllPeople().get(1).getImageUri()));
+        assertEquals(dao.getAllPeople().size(), before + 2);
     }
 
     @Test
