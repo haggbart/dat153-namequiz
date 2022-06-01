@@ -24,3 +24,13 @@
 
 ## Toast confirming entry added to the database
 <img width="550" alt="image" src="https://user-images.githubusercontent.com/4412029/152841632-01f94ac2-9de7-4f74-b294-b4289100217a.png">
+
+
+# Answers
+Which APKs are used during testing?
+app apk and debug apk
+
+Which adb commands does Gradle use to install & run the tests on the phone/emulator?
+adb install example.apk
+adb install testexample.apk
+adb shell am instrument -w <test_package_name>/<runner_class>
