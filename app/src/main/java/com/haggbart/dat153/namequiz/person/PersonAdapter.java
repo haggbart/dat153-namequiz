@@ -55,6 +55,7 @@ public class PersonAdapter extends RecyclerView.Adapter<PersonAdapter.ViewHolder
      */
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        Log.d(TAG, "onBindViewHolder: called");
         PersonEntry person = people.get(position);
         holder.tvForename.setText(String.format("%s %s", person.getForename(), person.getSurname()));
         holder.ivImage.setImageURI(person.getImageUri() == null ? getUri(R.drawable.placeholder) : person.getImageUri());

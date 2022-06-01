@@ -47,6 +47,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Intent intent = new Intent(this, DatabaseActivity.class);
 
         int id = view.getId();
+
+        // Avoid switch case statements:
+        // Resource IDs will be non-final by default in Android Gradle Plugin version 8.0
+        //
+        // In this case, no performance is lost or gained by using switch case statements
+        //
+        // The type of performance that a "switch" statement may give,
+        // has to be taken into consideration for more specific edge cases
+        // which may require high efficiency, such as render loops, or algorithms
+        // with efficiency in focus.
         if (id == R.id.tvQuiz) {
             intent = new Intent(this, QuizActivity.class);
         } else if (id == R.id.tvDatabase) {

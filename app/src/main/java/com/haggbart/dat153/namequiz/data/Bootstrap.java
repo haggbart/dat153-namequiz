@@ -12,7 +12,7 @@ import com.haggbart.dat153.namequiz.person.PersonEntry;
 import java.util.Locale;
 
 /**
- * Initialize some data for the nonpersistent "database".
+ * Initialize example data for the database
  */
 public class Bootstrap {
 
