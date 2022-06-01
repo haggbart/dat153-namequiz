@@ -26,7 +26,7 @@ public class QuizStateTest {
         state = new QuizState();
         state.shuffledPeople = new ArrayList<>();
         for (int i = 0; i < 10; i++) {
-            state.shuffledPeople.add( new PersonEntry(faker.name().firstName(), faker.name().lastName(), null));
+            state.shuffledPeople.add(new PersonEntry(faker.name().firstName(), faker.name().lastName(), null));
         }
     }
 
@@ -46,9 +46,8 @@ public class QuizStateTest {
     @Test
     public void nextPersonPopulateUniqueOptions() {
         state.nextPerson();
-        var set = new ArraySet<String>(QuizValues.ANSWERS_TOTAL);
-        set.addAll(state.options);
-        assertEquals(QuizValues.ANSWERS_TOTAL, set.size());
+        var uniqueOptions = new ArraySet<>(state.options);
+        assertEquals(QuizValues.ANSWERS_TOTAL, uniqueOptions.size());
         assertEquals(QuizValues.ANSWERS_TOTAL, state.options.size());
     }
 
@@ -57,18 +56,33 @@ public class QuizStateTest {
         state.correctAnswer = 2;
         assertEquals(0, state.points);
         assertEquals(0, state.attempts);
-        state.answer(2);
+        state.guess(2);
         assertEquals(1, state.points);
         assertEquals(1, state.attempts);
     }
 
     @Test
-    public void wrongAnswerAttempts() {
+    public void wrongAnswerIncreaseAttempts() {
         state.correctAnswer = 2;
         assertEquals(0, state.points);
         assertEquals(0, state.attempts);
-        state.answer(1);
+        state.guess(1);
         assertEquals(0, state.points);
         assertEquals(1, state.attempts);
+    }
+
+    @Test
+    public void randomNameNotNull() {
+        state.nextPerson();
+        assertNotNull(state.randomName());
+    }
+
+    @Test
+    public void randomNameDifferentThanOptions() {
+        state.nextPerson();
+        var uniqueOptions = new ArraySet<>(state.options);
+        assertEquals(QuizValues.ANSWERS_TOTAL, uniqueOptions.size());
+        uniqueOptions.add(state.randomName());
+        assertEquals(QuizValues.ANSWERS_TOTAL + 1, uniqueOptions.size());
     }
 }
